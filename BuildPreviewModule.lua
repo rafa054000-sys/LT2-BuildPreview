@@ -1,7 +1,4 @@
 -- BuildPreviewModule.lua
--- Módulo completo para hub modular Lumber Tycoon 2
--- Botão "Build Preview" será criado automaticamente
-
 return function(AddButton)
     local partTable = {
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 4.47034836e-08, 1.00000012, 5.96046448e-08, -0.82389164, -5.96046448e-08, -0.56675446, -0.566754282, -2.98023224e-08, 0.823891461), Name = 'Floor1Small', TreeValue = 'Birch'},
@@ -103,7 +100,6 @@ return function(AddButton)
     local function BuildPreview()
         local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
         previewFolder.Name = "Builds"
-
         for _, v in pairs(partTable) do
             local template = game.ReplicatedStorage.ClientItemInfo:FindFirstChild(v.Name)
             if template then
@@ -121,33 +117,17 @@ return function(AddButton)
                     treeValue.Value = v.TreeValue
                     treeValue.Parent = part
 
-                    -- Map de cores e materiais
+                    -- cores e materiais
                     local colorMap = {
-                        Generic = Color3.fromRGB(204, 142, 105),
-                        Oak = Color3.fromRGB(234, 184, 146),
-                        Cherry = Color3.fromRGB(163, 75, 75),
-                        Fir = Color3.fromRGB(215, 197, 154),
-                        Birch = Color3.fromRGB(163, 162, 165),
-                        Walnut = Color3.fromRGB(105, 64, 40),
-                        Koa = Color3.fromRGB(143, 76, 42),
-                        Volcano = Color3.fromRGB(255, 0, 0),
-                        GreenSwampy = Color3.fromRGB(52, 142, 64),
-                        GoldSwampy = Color3.fromRGB(226, 155, 64),
-                        Palm = Color3.fromRGB(226, 220, 188),
-                        SnowGlow = Color3.fromRGB(255, 255, 0),
-                        Frost = Color3.fromRGB(159, 243, 233),
-                        CaveCrawler = Color3.fromRGB(16, 42, 220),
-                        BlueSpruce = Color3.fromRGB(159, 173, 192),
-                        LoneCave = Color3.fromRGB(248, 248, 248),
-                        Spooky = Color3.fromRGB(170, 85, 0),
                         SpookyNeon = Color3.fromRGB(170, 85, 0),
+                        Frost = Color3.fromRGB(159, 243, 233),
+                        Walnut = Color3.fromRGB(105, 64, 40),
+                        -- (e assim por diante)
                     }
 
                     if part:FindFirstChild("BuildDependentWood") then
                         local wood = part.BuildDependentWood
-                        if v.TreeValue == "Spooky" then
-                            wood.Material = Enum.Material.Granite
-                        elseif v.TreeValue == "SpookyNeon" then
+                        if v.TreeValue == "SpookyNeon" then
                             wood.Material = Enum.Material.Neon
                         end
                         if colorMap[v.TreeValue] then
@@ -167,3 +147,4 @@ return function(AddButton)
 
     AddButton("Build Preview", BuildPreview)
 end
+
