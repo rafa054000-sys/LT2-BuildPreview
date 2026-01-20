@@ -1,5 +1,7 @@
+-- BuildPreviewModule.lua
 return function(AddModule)
     AddModule("Build Preview", function()
+        print("Preview do build carregado!")
         local partTable = {
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 4.47034836e-08, 1.00000012, 5.96046448e-08, -0.82389164, -5.96046448e-08, -0.56675446, -0.566754282, -2.98023224e-08, 0.823891461), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 2.98023224e-08, 1.00000012, 5.96046448e-08, -0.181823254, -5.96046448e-08, -0.983335018, -0.983334482, -2.98023224e-08, 0.181823283), Name = 'Floor1Small', TreeValue = 'Birch'},
