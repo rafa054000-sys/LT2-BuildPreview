@@ -1,7 +1,5 @@
--- BuildPreviewModule.lua
 return function(AddModule)
     AddModule("Build Preview", function()
-        print("Preview do build carregado!")
         local partTable = {
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 4.47034836e-08, 1.00000012, 5.96046448e-08, -0.82389164, -5.96046448e-08, -0.56675446, -0.566754282, -2.98023224e-08, 0.823891461), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 2.98023224e-08, 1.00000012, 5.96046448e-08, -0.181823254, -5.96046448e-08, -0.983335018, -0.983334482, -2.98023224e-08, 0.181823283), Name = 'Floor1Small', TreeValue = 'Birch'},
@@ -99,7 +97,6 @@ return function(AddModule)
     {CFrame = CFrame.new(26.1998215, 60.9107819, -211.880524, -2.98023224e-08, 1.00000012, 1.49011612e-08, 0.973900855, -5.96046448e-08, -0.226974383, -0.226974458, -2.98023224e-08, -0.973900855), Name = 'Floor1Small', TreeValue = 'Birch'},
 }
 
-
 local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
 previewFolder.Name = "Builds"
 
@@ -120,6 +117,25 @@ for _, v in pairs(partTable) do
         end
     end
 end
+        local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
+        previewFolder.Name = "Builds"
 
+        for _, v in pairs(partTable) do
+            local model = game.ReplicatedStorage.ClientItemInfo:FindFirstChild(v.Name)
+            if model then
+                local part = model:FindFirstChildOfClass("Model"):Clone()
+                part.Parent = previewFolder
+                part:SetPrimaryPartCFrame(v.CFrame)
+                part.Name = v.Name
+
+                local treeValue = Instance.new("StringValue")
+                treeValue.Name = "TreeValue"
+                treeValue.Value = v.TreeValue
+                treeValue.Parent = part
+
+                -- Ajustes de cor/material aqui…
+            end
+        end
     end)
 end
+
