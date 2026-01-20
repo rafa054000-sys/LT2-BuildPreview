@@ -1,5 +1,6 @@
-return function()
-local partTable = {
+return function(AddModule)
+    AddModule("Build Preview", function()
+        local partTable = {
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 4.47034836e-08, 1.00000012, 5.96046448e-08, -0.82389164, -5.96046448e-08, -0.56675446, -0.566754282, -2.98023224e-08, 0.823891461), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 2.98023224e-08, 1.00000012, 5.96046448e-08, -0.181823254, -5.96046448e-08, -0.983335018, -0.983334482, -2.98023224e-08, 0.181823283), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999237, 55.2419815, -203.071762, 8.94069672e-08, 1.00000012, -2.98023224e-08, -0.923832536, -5.96046448e-08, -0.382806361, -0.38280642, -2.98023224e-08, 0.923832238), Name = 'Floor1Small', TreeValue = 'Birch'},
@@ -117,4 +118,6 @@ for _, v in pairs(partTable) do
         end
     end
 end
+
+    end)
 end
