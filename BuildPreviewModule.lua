@@ -1,23 +1,6 @@
--- BuildPreviewStandalone.lua
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local CoreGui = game:GetService("CoreGui")
-
--- Cria GUI própria
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "BuildPreviewGUI"
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Parent = CoreGui
-
-local Button = Instance.new("TextButton")
-Button.Size = UDim2.new(0, 150, 0, 50)
-Button.Position = UDim2.new(0.5, -75, 0.5, -25)
-Button.Text = "Build Preview"
-Button.Parent = ScreenGui
-
--- Quando clicar, gera preview
-Button.MouseButton1Click:Connect(function()
-    local partTable = {
+return function(AddButton)
+    AddButton("Build Preview", function()
+local partTable = {
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 4.47034836e-08, 1.00000012, 5.96046448e-08, -0.82389164, -5.96046448e-08, -0.56675446, -0.566754282, -2.98023224e-08, 0.823891461), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999313, 55.2420006, -203.071808, 2.98023224e-08, 1.00000012, 5.96046448e-08, -0.181823254, -5.96046448e-08, -0.983335018, -0.983334482, -2.98023224e-08, 0.181823283), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.9999237, 55.2419815, -203.071762, 8.94069672e-08, 1.00000012, -2.98023224e-08, -0.923832536, -5.96046448e-08, -0.382806361, -0.38280642, -2.98023224e-08, 0.923832238), Name = 'Floor1Small', TreeValue = 'Birch'},
@@ -112,44 +95,66 @@ Button.MouseButton1Click:Connect(function()
     {CFrame = CFrame.new(26.1998215, 60.9107819, -211.880524, 0, 1.00000012, 3.7252903e-08, 0.905305743, -5.96046448e-08, -0.424760699, -0.424760759, -2.98023224e-08, -0.905305922), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.1998215, 60.9107819, -211.880524, 2.98023224e-08, 1.00000012, 5.96046448e-08, 0.339796603, -5.96046448e-08, -0.940499127, -0.940499246, -2.98023224e-08, -0.339796603), Name = 'Floor1Small', TreeValue = 'Birch'},
     {CFrame = CFrame.new(26.1998215, 60.9107819, -211.880524, -2.98023224e-08, 1.00000012, 1.49011612e-08, 0.973900855, -5.96046448e-08, -0.226974383, -0.226974458, -2.98023224e-08, -0.973900855), Name = 'Floor1Small', TreeValue = 'Birch'},
-    }
+}
 
-    local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
-    previewFolder.Name = "Builds"
 
-    for _, v in pairs(partTable) do
-        local template = game.ReplicatedStorage.ClientItemInfo:FindFirstChild(v.Name)
-        if template then
-            local model = template:FindFirstChildOfClass("Model")
-            if model then
-                local part = model:Clone()
-                part.Parent = previewFolder
-                if part.PrimaryPart then
-                    part:SetPrimaryPartCFrame(v.CFrame)
-                end
-                part.Name = v.Name
+local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
+previewFolder.Name = "Builds"
 
-                local treeValue = Instance.new("StringValue")
-                treeValue.Name = "TreeValue"
-                treeValue.Value = v.TreeValue
-                treeValue.Parent = part
+for _, v in pairs(partTable) do
+    local part = game.ReplicatedStorage.ClientItemInfo:FindFirstChild(v.Name):FindFirstChildOfClass('Model'):Clone()
+    part.Parent = previewFolder
+    part:SetPrimaryPartCFrame(v.CFrame)
+    part.Name = v.Name
+    local treeValue = Instance.new("StringValue", part)
+    treeValue.Name = "TreeValue"
+    treeValue.Value = v.TreeValue
 
-                if part:FindFirstChild("BuildDependentWood") then
-                    local wood = part.BuildDependentWood
-                    if v.TreeValue == "SpookyNeon" then
-                        wood.Material = Enum.Material.Neon
-                        wood.Color = Color3.fromRGB(170, 85, 0)
+	if v.TreeValue == "Generic" then part.BuildDependentWood.Color = Color3.fromRGB(204, 142, 105) elseif v.TreeValue == "Oak" then part.BuildDependentWood.Color = Color3.fromRGB(234, 184, 146) elseif v.TreeValue == "Cherry" then part.BuildDependentWood.Color = Color3.fromRGB(163, 75, 75) elseif v.TreeValue == "Fir" then part.BuildDependentWood.Color = Color3.fromRGB(215, 197, 154) elseif v.TreeValue == "Birch" then part.BuildDependentWood.Color = Color3.fromRGB(205, 205, 205) elseif v.TreeValue == "Walnut" then part.BuildDependentWood.Color = Color3.fromRGB(105, 64, 40) elseif v.TreeValue == "Koa" then part.BuildDependentWood.Color = Color3.fromRGB(143, 76, 42) elseif v.TreeValue == "Volcano" then part.BuildDependentWood.Color = Color3.fromRGB(255, 0, 0) elseif v.TreeValue == "GreenSwampy" then part.BuildDependentWood.Color = Color3.fromRGB(52, 142, 64) elseif v.TreeValue == "GoldSwampy" then part.BuildDependentWood.Color = Color3.fromRGB(226, 155, 64) elseif v.TreeValue == "Palm" then part.BuildDependentWood.Color = Color3.fromRGB(226, 220, 188) elseif v.TreeValue == "SnowGlow" then part.BuildDependentWood.Color = Color3.fromRGB(255, 255, 0) elseif v.TreeValue == "Frost" then part.BuildDependentWood.Color = Color3.fromRGB(159, 243, 233) elseif v.TreeValue == "CaveCrawler" then part.BuildDependentWood.Color = Color3.fromRGB(16, 42, 220) elseif v.TreeValue == "BlueSpruce" then part.BuildDependentWood.Color = Color3.fromRGB(159, 173, 192) elseif v.TreeValue == "LoneCave" then part.BuildDependentWood.Color = Color3.fromRGB(248, 248, 248) elseif v.TreeValue == "Spooky" then part.BuildDependentWood.Material = Enum.Material.Granite part.BuildDependentWood.Color = Color3.fromRGB(170, 85, 0) elseif v.TreeValue == "SpookyNeon" then part.BuildDependentWood.Material = Enum.Material.Neon part.BuildDependentWood.Color = Color3.fromRGB(170, 85, 0) elseif v.TreeValue == "Birch" then part.BuildDependentWood.Color = Color3.fromRGB(163, 162, 165) end
+
+    for _, _Part in pairs(part:GetChildren()) do
+        if _Part:IsA('BasePart') and _Part.Transparency == 0 then
+            _Part.Transparency = 0.3
+        end
+    end
+end
+
+        local previewFolder = workspace:FindFirstChild("Builds") or Instance.new("Folder", workspace)
+        previewFolder.Name = "Builds"
+
+        for _, v in pairs(partTable) do
+            local template = game.ReplicatedStorage.ClientItemInfo:FindFirstChild(v.Name)
+            if template then
+                local model = template:FindFirstChildOfClass("Model")
+                if model then
+                    local part = model:Clone()
+                    part.Parent = previewFolder
+
+                    -- Definir PrimaryPart se não existir
+                    if not part.PrimaryPart then
+                        for _, p in pairs(part:GetChildren()) do
+                            if p:IsA("BasePart") then
+                                part.PrimaryPart = p
+                                break
+                            end
+                        end
                     end
-                end
 
-                for _, _Part in pairs(part:GetChildren()) do
-                    if _Part:IsA("BasePart") and _Part.Transparency == 0 then
-                        _Part.Transparency = 0.3
+                    if part.PrimaryPart then
+                        part:SetPrimaryPartCFrame(v.CFrame)
                     end
+
+                    part.Name = v.Name
+
+                    local treeValue = Instance.new("StringValue")
+                    treeValue.Name = "TreeValue"
+                    treeValue.Value = v.TreeValue
+                    treeValue.Parent = part
+
+                    -- cores e materiais
+                    -- ... (como já discutido)
                 end
             end
         end
-    end
-end)
-
-
+    end)
+end
